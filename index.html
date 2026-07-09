@@ -1,153 +1,118 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ゴルフオリンピック Ver.2.0</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>ゴルフオリンピック 完成版</title>
   <style>
     :root{
-      --bg:#f6f7f2;--card:#ffffff;--ink:#1f2933;--muted:#697386;--line:#dfe3e8;
-      --accent:#1f7a4d;--accent2:#ecf8f1;--danger:#b42318;--warn:#946200;--blue:#255ab7;
-      --gold:#d9a441;--silver:#aeb4bd;--bronze:#b8794d;--iron:#58616c;
+      --bg:#f6f7fb;--card:#fff;--ink:#18202b;--muted:#6b7280;--line:#e5e7eb;
+      --green:#16804f;--green2:#0f6b40;--red:#dc2626;--orange:#f59e0b;--blue:#2563eb;
+      --gold:#f4c542;--silver:#cfd8dc;--bronze:#c8843a;--iron:#6b7280;
+      --shadow:0 8px 24px rgba(15,23,42,.08);--radius:18px;
     }
-    *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.45}
-    header{position:sticky;top:0;z-index:20;background:rgba(246,247,242,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:12px 14px}
-    h1{font-size:20px;margin:0 0 6px}.sub{font-size:12px;color:var(--muted)}
-    main{padding:14px;max-width:980px;margin:0 auto 80px}.section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0;box-shadow:0 2px 10px rgba(15,23,42,.04)}
-    h2{font-size:17px;margin:0 0 10px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.grid{display:grid;gap:10px}.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid4{grid-template-columns:repeat(4,minmax(0,1fr))}
-    @media(max-width:720px){.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}.grid2{grid-template-columns:1fr}}
-    input,select,button{font:inherit} input,select{width:100%;padding:11px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
-    button{border:0;border-radius:12px;padding:11px 12px;background:var(--accent);color:#fff;font-weight:700;cursor:pointer;min-height:44px} button.secondary{background:#eef2f6;color:#223} button.danger{background:var(--danger)} button.warn{background:#a16207} button.blue{background:var(--blue)} button:active{transform:translateY(1px)}
-    .pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;background:#eef2f6;padding:6px 9px;font-size:12px;font-weight:700;color:#344054}.pill.hot{background:#fff1f0;color:var(--danger)}.pill.good{background:var(--accent2);color:var(--accent)}
-    .scoreboard{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.player-card{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fff}.rank{font-size:12px;color:var(--muted)}.name{font-weight:800;font-size:16px}.score{font-size:28px;font-weight:900}.small{font-size:12px;color:var(--muted)}
-    @media(max-width:720px){.scoreboard{grid-template-columns:repeat(2,minmax(0,1fr))}.score{font-size:24px}}
-    .tabs{display:flex;gap:8px;overflow:auto;padding:0 0 8px}.tab{white-space:nowrap;background:#e7ecef;color:#17202a;padding:9px 12px;border-radius:999px;min-height:38px}.tab.active{background:var(--accent);color:#fff}
-    .player-input{border:1px solid var(--line);border-radius:16px;padding:12px;background:#fcfcfb}.player-input h3{margin:0 0 8px;font-size:16px}.btns{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.btns button{padding:9px 6px;font-size:13px;background:#edf2f7;color:#1f2933}.btns button.sel{color:#fff}.btns .gold.sel{background:var(--gold)}.btns .silver.sel{background:#8b949e}.btns .bronze.sel{background:var(--bronze)}.btns .iron.sel{background:var(--iron)}
-    .checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:9px}.checks label{display:flex;gap:7px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:9px;background:#fff;font-size:13px}.checks input{width:auto}
-    .cards{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}.pcard{border:1px solid #d9b99b;background:#fff8ee;color:#5b3300;border-radius:10px;padding:7px 8px;font-weight:800;font-size:12px}.pcard.all{background:#fff1f0;color:var(--danger);border-color:#f0a6a0}
-    table{width:100%;border-collapse:collapse;font-size:13px} th,td{border-bottom:1px solid var(--line);padding:8px;text-align:left} th{color:#475467;background:#f8fafc}.log{max-height:260px;overflow:auto;background:#fbfcfd;border-radius:12px;border:1px solid var(--line);padding:8px}.log p{margin:5px 0;font-size:13px}.rule li{margin-bottom:6px}.footerbar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 14px;display:flex;gap:8px;justify-content:center;z-index:30}.footerbar button{max-width:220px;width:32%}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif;line-height:1.55}
+    header{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,var(--green),#24a46b);color:#fff;padding:14px 14px 10px;box-shadow:0 2px 14px rgba(0,0,0,.16)}
+    header h1{font-size:19px;margin:0 0 8px;font-weight:800;letter-spacing:.02em}
+    .tabs{display:flex;gap:7px;overflow:auto;padding-bottom:2px}.tab{border:0;border-radius:999px;background:rgba(255,255,255,.18);color:#fff;padding:9px 12px;font-weight:800;white-space:nowrap;font-size:13px}.tab.active{background:#fff;color:var(--green2)}
+    main{padding:14px;max-width:900px;margin:0 auto 96px}.screen{display:none}.screen.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px;margin-bottom:14px}.card h2{font-size:18px;margin:0 0 10px}.card h3{font-size:15px;margin:14px 0 8px}.muted{color:var(--muted);font-size:13px}.small{font-size:12px;color:var(--muted)}
+    label{display:block;font-weight:800;font-size:13px;margin:10px 0 5px}input,select{width:100%;font-size:16px;border:1px solid #d1d5db;border-radius:12px;padding:12px;background:#fff}input[type="checkbox"]{width:auto}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.btn{border:0;border-radius:14px;padding:13px 14px;font-size:15px;font-weight:900;background:#e5e7eb;color:#111;min-height:46px}.btn.primary{background:var(--green);color:#fff}.btn.danger{background:var(--red);color:#fff}.btn.blue{background:var(--blue);color:#fff}.btn.orange{background:var(--orange);color:#111}.btn.ghost{background:#f3f4f6;color:#111;border:1px solid var(--line)}.btn:active{transform:scale(.98)}
+    .scoreboard{display:grid;gap:9px}.rankrow{display:grid;grid-template-columns:36px 1fr auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:15px;padding:10px 12px}.rankno{font-weight:900;font-size:18px}.pname{font-weight:900}.pts{font-weight:900;font-size:18px}.pill{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border-radius:999px;background:#eef2ff;font-size:12px;font-weight:800;margin:2px}.pill.hot{background:#fee2e2;color:#991b1b}.pill.green{background:#dcfce7;color:#166534}.pill.gray{background:#f3f4f6;color:#374151}.notice{background:#fff7ed;border:1px solid #fed7aa;border-radius:14px;padding:10px;color:#7c2d12;font-size:13px;font-weight:700}
+    .playerBox{border:1px solid var(--line);border-radius:16px;padding:12px;background:#fafafa;margin-bottom:10px}.playerHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}.playerHead strong{font-size:16px}.olympicBtns{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}.miniBtn{border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 6px;font-size:12px;font-weight:900;min-height:42px}.miniBtn.active{outline:3px solid #111}.gold{background:var(--gold)}.silver{background:var(--silver)}.bronze{background:var(--bronze);color:#fff}.iron{background:var(--iron);color:#fff}.checks{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:9px}.checkBtn{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px;font-weight:800;font-size:13px}.checkBtn input{transform:scale(1.25)}
+    .penaltyGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.penCard{border:1px solid var(--line);border-radius:14px;background:#fff;padding:10px}.penTitle{font-weight:900}.owner{font-size:12px;color:var(--muted);margin:3px 0 8px}.history{max-height:260px;overflow:auto}.histItem{border-bottom:1px solid var(--line);padding:9px 0;font-size:13px}.histItem:last-child{border-bottom:0}.rules ol{padding-left:20px}.rules li{margin:6px 0}.rules table{width:100%;border-collapse:collapse;font-size:13px}.rules th,.rules td{border:1px solid var(--line);padding:8px;text-align:left}.rules th{background:#f9fafb}.bottomBar{position:fixed;left:0;right:0;bottom:0;background:rgba(255,255,255,.95);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px 12px;z-index:25}.bottomInner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:8px}.toast{position:fixed;left:14px;right:14px;bottom:84px;background:#111827;color:#fff;border-radius:16px;padding:12px 14px;z-index:40;box-shadow:var(--shadow);display:none;font-weight:800}.toast.show{display:block}.dangerText{color:var(--red);font-weight:900}.hidden{display:none!important}
+    @media(min-width:700px){.playersGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.checks{grid-template-columns:1fr 1fr 1fr}.penaltyGrid{grid-template-columns:repeat(4,1fr)}}
   </style>
 </head>
 <body>
 <header>
-  <h1>⛳ ゴルフオリンピック Ver.2.0</h1>
-  <div class="sub">4人用｜オリンピック・確変・ニアピン・レスキュー・ペナルティカード対応</div>
+  <h1>⛳ ゴルフオリンピック 完成版</h1>
+  <div class="tabs">
+    <button class="tab active" data-screen="setup">設定</button>
+    <button class="tab" data-screen="play">入力</button>
+    <button class="tab" data-screen="score">順位</button>
+    <button class="tab" data-screen="penalty">カード</button>
+    <button class="tab" data-screen="rules">ルール</button>
+  </div>
 </header>
 <main>
-  <section class="section">
-    <div class="tabs">
-      <button class="tab active" onclick="showTab('play',this)">入力</button>
-      <button class="tab" onclick="showTab('cards',this)">ペナルティカード</button>
-      <button class="tab" onclick="showTab('history',this)">履歴</button>
-      <button class="tab" onclick="showTab('rules',this)">ルール確認</button>
-      <button class="tab" onclick="showTab('setup',this)">設定</button>
+  <section id="setup" class="screen active">
+    <div class="card">
+      <h2>ゲーム設定</h2>
+      <p class="muted">プレイヤー名を自由に入力できます。開始するとペナルティカード8種類がランダムに2枚ずつ配布されます。</p>
+      <label>ゴルフ場名</label><input id="course" placeholder="例：〇〇カントリークラブ" />
+      <div class="grid2"><div><label>日付</label><input id="date" type="date" /></div><div><label>スタート</label><select id="startHole"><option value="1">1番</option><option value="10">10番</option></select></div></div>
+      <h3>プレイヤー名</h3>
+      <div class="grid2"><input id="p0" placeholder="プレイヤー1" value="小林"/><input id="p1" placeholder="プレイヤー2" value="佐藤"/><input id="p2" placeholder="プレイヤー3" value="鈴木"/><input id="p3" placeholder="プレイヤー4" value="田中"/></div>
+      <div style="height:12px"></div>
+      <button class="btn primary" onclick="startGame(true)">ゲーム開始・カード配布</button>
+      <button class="btn ghost" onclick="loadGame()" style="margin-top:8px;width:100%">保存データを読み込む</button>
     </div>
-    <div id="scoreboard" class="scoreboard"></div>
+    <div class="card rules"><h2>今回のルール要約</h2><p class="muted">詳細は「ルール」タブに全文書化しています。</p><ol><li>金4点、銀3点、銅2点、鉄1点。</li><li>バーディ+2、砂1+1、ダイヤモンド+5、竿成功+3、竿失敗-3。</li><li>16〜18番は大人の時間としてオリンピック点が2倍。</li><li>確変はカンまたは一気通貫で発動。ペナルティカード行為が出たら終了。</li><li>Par3ニアピンは3点。誰も取らなければ次のPar3へ持ち越し。</li><li>レスキューはPar3で1オンせずパーを取った場合。ニアピン保持者はバーディしないと権利消滅。</li><li>ペナルティカードは8種類。4人へ2枚ずつ配布し、該当行為が出るとカード移動。1人に8枚揃うと-16点で再配布。</li></ol></div>
   </section>
 
-  <section id="tab-play" class="section tabpage">
-    <div class="row" style="justify-content:space-between">
-      <h2>ホール入力</h2>
-      <span class="pill" id="holePill"></span>
+  <section id="play" class="screen">
+    <div class="card">
+      <div class="grid2"><div><label>現在ホール</label><select id="hole"></select></div><div><label>Par</label><select id="par"><option>3</option><option selected>4</option><option>5</option></select></div></div>
+      <div class="notice" id="nearNotice">Par3の場合、ニアピン入力が使えます。</div>
     </div>
-    <div class="grid grid2">
-      <label>ホール番号<select id="holeNo" onchange="renderAll()"></select></label>
-      <label>PAR<select id="parNo"><option>3</option><option selected>4</option><option>5</option></select></label>
-    </div>
-    <div id="inputs" class="grid" style="margin-top:12px"></div>
-    <div class="row" style="margin-top:12px">
-      <button onclick="saveHole()">このホールを登録</button>
-      <button class="secondary" onclick="clearCurrentInputs()">入力クリア</button>
+    <div id="players" class="playersGrid"></div>
+    <div class="card">
+      <h2>ホール登録</h2>
+      <p class="muted">該当する項目を押してから登録してください。登録後、自動保存されます。</p>
+      <button class="btn primary" onclick="submitHole()" style="width:100%">このホールを登録</button>
+      <button class="btn ghost" onclick="clearCurrentInputs()" style="margin-top:8px;width:100%">入力だけリセット</button>
     </div>
   </section>
 
-  <section id="tab-cards" class="section tabpage" style="display:none">
-    <div class="row" style="justify-content:space-between"><h2>🎴 ペナルティカード</h2><button class="warn" onclick="dealPenaltyCards()">再配布</button></div>
-    <p class="small">スタート時に8種類を2枚ずつランダム配布。該当行為が出たらカードがその人へ移動。1人に8枚全部揃うと-16点で自動再配布。</p>
-    <div id="cardOwners" class="grid grid4"></div>
-    <h3>手動でカード移動</h3>
-    <div class="grid grid2">
-      <select id="manualCard"></select>
-      <select id="manualPlayer"></select>
-    </div>
-    <button class="blue" style="margin-top:8px" onclick="manualMoveCard()">カードを移動</button>
+  <section id="score" class="screen">
+    <div class="card"><h2>リアルタイム順位</h2><div id="scoreboard" class="scoreboard"></div></div>
+    <div class="card"><h2>ホール履歴</h2><div id="history" class="history muted">まだ登録がありません。</div></div>
+    <div class="card"><h2>データ操作</h2><button class="btn blue" onclick="saveGame();toast('保存しました')">保存</button> <button class="btn danger" onclick="resetAll()">全リセット</button></div>
   </section>
 
-  <section id="tab-history" class="section tabpage" style="display:none">
-    <h2>履歴</h2>
-    <div id="historyTable"></div>
-    <h3>ログ</h3>
-    <div id="log" class="log"></div>
+  <section id="penalty" class="screen">
+    <div class="card"><h2>ペナルティカード保有状況</h2><p class="muted">行為が発生したら、そのカードの「移動先」を押します。誰かが8枚全て集めたら自動で-16点、再配布します。</p><div id="penaltyCards" class="penaltyGrid"></div><button class="btn orange" onclick="dealPenaltyCards()" style="width:100%;margin-top:12px">カードを再配布</button></div>
   </section>
 
-  <section id="tab-rules" class="section tabpage rule" style="display:none">
-    <h2>ルール確認</h2>
-    <ul>
-      <li>オリンピック：金4点、銀3点、銅2点、鉄1点。</li>
-      <li>バーディ：+2点。ダイヤモンド：+5点。砂1：+1点。</li>
-      <li>竿：成功+3点、3パット失敗-3点。</li>
-      <li>大人の時間：16〜18番はオリンピック得点2倍。</li>
-      <li>確変：金銀銅鉄のどれかを4回、または金銀銅鉄を全種類獲得で突入。</li>
-      <li>確変中：そのホールで他プレイヤーよりパット数が少ない差分を加点。</li>
-      <li>確変終了：ペナルティカードの対象行為が出た時点で終了。</li>
-      <li>PAR3ニアピン：3点。誰も取らなければ次のPAR3へ持ち越し。</li>
-      <li>レスキュー：PAR3で1オンせずパーを取った場合。ニアピン保持者はバーディを取らないと権利消滅。</li>
-      <li>ペナルティカード：OB、池ポチャ、3パット、バンカー、チョロ、1ペナ、木に当たる、カラー。</li>
-    </ul>
-  </section>
-
-  <section id="tab-setup" class="section tabpage" style="display:none">
-    <h2>設定</h2>
-    <div class="grid grid4" id="nameInputs"></div>
-    <div class="row" style="margin-top:10px">
-      <button onclick="applyNames()">名前を反映</button>
-      <button class="danger" onclick="resetGame()">全データリセット</button>
-    </div>
+  <section id="rules" class="screen rules">
+    <div class="card"><h2>ルールブック Ver.1.0</h2><h3>1. 基本点</h3><table><tr><th>項目</th><th>点数</th></tr><tr><td>金</td><td>4点</td></tr><tr><td>銀</td><td>3点</td></tr><tr><td>銅</td><td>2点</td></tr><tr><td>鉄</td><td>1点</td></tr><tr><td>バーディ</td><td>+2点</td></tr><tr><td>砂1</td><td>+1点</td></tr><tr><td>ダイヤモンド（チップイン）</td><td>+5点</td></tr><tr><td>竿成功</td><td>+3点</td></tr><tr><td>竿失敗</td><td>-3点</td></tr></table><h3>2. 大人の時間</h3><p>16〜18番ホールは大人の時間。オリンピック点（金銀銅鉄）のみ2倍として計算します。</p><h3>3. 確変</h3><ol><li>同じオリンピック札を4回取る「カン」、または金銀銅鉄を全て1回以上取る「一気通貫」で確変に入ります。</li><li>確変中は、他プレイヤーより少ないパット数の差分を加点します。</li><li>確変終了条件は、ペナルティカードに該当する行為が出た時点です。</li></ol><h3>4. Par3 ニアピン・レスキュー</h3><ol><li>Par3のニアピンは3点。誰も取らなければ次のPar3へ持ち越します。</li><li>レスキュー（火消し）は、Par3で1オンせずにパーを取った場合です。</li><li>レスキュー成立時、ニアピン保持者はバーディを取らないとニアピン権が消滅します。</li></ol><h3>5. ペナルティカード</h3><ol><li>カードは8種類：OB、池ポチャ、3パット、バンカー、チョロ、1ペナ、木に当たる、カラー。</li><li>スタート時にランダムで2枚ずつ配布します。</li><li>該当する行為が出たら、そのカードは該当者へ移動します。</li><li>誰か1人に8枚全て揃ったら、その人に-16点を付けます。</li><li>-16点が発生した時点でカードを再配布します。</li></ol></div>
   </section>
 </main>
-<div class="footerbar">
-  <button class="secondary" onclick="prevHole()">前ホール</button>
-  <button onclick="nextHole()">次ホール</button>
-  <button class="secondary" onclick="exportText()">結果コピー</button>
-</div>
+<div class="bottomBar"><div class="bottomInner"><button class="btn ghost" onclick="showScreen('score')">順位を見る</button><button class="btn primary" onclick="showScreen('play')">入力へ</button></div></div><div id="toast" class="toast"></div>
 <script>
-const OLY={gold:4,silver:3,bronze:2,iron:1,none:0};
-const OLY_J={gold:'金',silver:'銀',bronze:'銅',iron:'鉄',none:'なし'};
-const PENALTY_CARDS=['OB','池ポチャ','3パット','バンカー','チョロ','1ペナ','木に当たる','カラー'];
-let state={players:['Aさん','Bさん','Cさん','Dさん'],scores:[0,0,0,0],hole:1,hist:[],logs:[],cards:{},olympicCounts:[{}, {}, {}, {}],kakuhen:[false,false,false,false],nearCarry:0,lastNear:null};
-let current={};
-function init(){ const saved=localStorage.getItem('golfOlympicV2'); if(saved){try{state=JSON.parse(saved)}catch(e){}} if(!state.cards||Object.keys(state.cards).length!==8) dealPenaltyCards(false); fillStatic(); renderAll(); }
-function persist(){localStorage.setItem('golfOlympicV2',JSON.stringify(state));}
-function fillStatic(){ holeNo.innerHTML=''; for(let i=1;i<=18;i++){holeNo.innerHTML+=`<option value="${i}">${i}H</option>`} holeNo.value=state.hole; manualCard.innerHTML=PENALTY_CARDS.map(c=>`<option>${c}</option>`).join(''); manualPlayer.innerHTML=state.players.map((p,i)=>`<option value="${i}">${p}</option>`).join(''); nameInputs.innerHTML=state.players.map((p,i)=>`<label>プレイヤー${i+1}<input id="name${i}" value="${p}"></label>`).join('');}
-function showTab(id,el){document.querySelectorAll('.tabpage').forEach(x=>x.style.display='none');document.getElementById('tab-'+id).style.display='block';document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');renderAll();}
-function rankPlayers(){return state.players.map((p,i)=>({p,i,s:state.scores[i]})).sort((a,b)=>b.s-a.s)}
-function renderScoreboard(){scoreboard.innerHTML=rankPlayers().map((r,idx)=>`<div class="player-card"><div class="rank">${idx+1}位 ${state.kakuhen[r.i]?'<span class="pill hot">確変中</span>':''}</div><div class="name">${r.p}</div><div class="score">${r.s}</div><div class="small">カード ${cardsOf(r.i).length}枚</div><div class="cards">${cardsOf(r.i).map(c=>`<span class="pcard ${cardsOf(r.i).length===8?'all':''}">${c}</span>`).join('')}</div></div>`).join('')}
-function renderInputs(){state.hole=Number(holeNo.value); holePill.textContent=`${state.hole}H ${state.hole>=16?'｜大人の時間':''}`; inputs.innerHTML=state.players.map((p,i)=>{let c=current[i]||defaultInput();return `<div class="player-input"><h3>${p}</h3><div class="grid grid2"><label>スコア<input type="number" value="${c.score??''}" onchange="setInp(${i},'score',this.value)"></label><label>パット数<input type="number" value="${c.putts??''}" onchange="setInp(${i},'putts',this.value)"></label></div><div class="btns" style="margin-top:8px">${['gold','silver','bronze','iron'].map(k=>`<button class="${k} ${c.olympic===k?'sel':''}" onclick="setOlympic(${i},'${k}')">${OLY_J[k]}</button>`).join('')}<button class="${c.olympic==='none'?'sel':''}" onclick="setOlympic(${i},'none')">なし</button></div><div class="checks">${check(i,'birdie','バーディ +2',c)}${check(i,'diamond','ダイヤ +5',c)}${check(i,'sand','砂1 +1',c)}${check(i,'saoPlus','竿成功 +3',c)}${check(i,'saoMinus','竿失敗 -3',c)}${check(i,'near','ニアピン',c)}${check(i,'rescue','レスキュー',c)}${PENALTY_CARDS.map(card=>check(i,'pen_'+card,card,c)).join('')}</div></div>`}).join('')}
-function check(i,k,label,c){return `<label><input type="checkbox" ${c[k]?'checked':''} onchange="setInp(${i},'${k}',this.checked)">${label}</label>`}
-function defaultInput(){return {olympic:'none',score:'',putts:''}}
-function setInp(i,k,v){current[i]=current[i]||defaultInput(); if(k==='score'||k==='putts') v= v===''?'':Number(v); current[i][k]=v; persist();}
-function setOlympic(i,k){current[i]=current[i]||defaultInput(); current[i].olympic=k; renderInputs();}
-function calcHole(){let details=[]; let points=[0,0,0,0]; let penaltyHappened=[false,false,false,false]; for(let i=0;i<4;i++){let c=current[i]||defaultInput(); let p=0; let ol=OLY[c.olympic]||0; if(state.hole>=16) ol*=2; p+=ol; if(c.birdie)p+=2; if(c.diamond)p+=5; if(c.sand)p+=1; if(c.saoPlus)p+=3; if(c.saoMinus)p-=3; if(c.near){p+=3+state.nearCarry; state.nearCarry=0; state.lastNear=i;} if(c.rescue){p+=1; if(state.lastNear!==null && state.lastNear!==i && !(current[state.lastNear]||{}).birdie){addLog(`🔥 ${state.players[i]}がレスキュー。${state.players[state.lastNear]}のニアピン権が消滅`); state.lastNear=null; state.nearCarry=0;}} if(state.kakuhen[i]){let my=Number(c.putts); if(my>0){let bonus=0; for(let j=0;j<4;j++){if(i===j)continue; let op=Number((current[j]||{}).putts); if(op>0 && my<op) bonus += op-my;} p+=bonus; if(bonus)addLog(`⚡ ${state.players[i]} 確変ボーナス +${bonus}`)}} PENALTY_CARDS.forEach(card=>{if(c['pen_'+card]){moveCard(card,i); penaltyHappened[i]=true;}}); points[i]=p; details.push(`${state.players[i]}:${p}点`); }
- if(state.hole==3||state.hole==6||state.hole==9||state.hole==12||state.hole==15||state.hole==18){ if(!Object.values(current).some(c=>c.near)){state.nearCarry+=3; addLog(`🎯 ${state.hole}H ニアピンなし。次へ3点持ち越し（累計${state.nearCarry}点）`);} }
- for(let i=0;i<4;i++){let c=current[i]||defaultInput(); if(c.olympic!=='none'){state.olympicCounts[i][c.olympic]=(state.olympicCounts[i][c.olympic]||0)+1;} let counts=state.olympicCounts[i]; let kan=Object.values(counts).some(v=>v>=4); let ikki=['gold','silver','bronze','iron'].every(k=>(counts[k]||0)>=1); if((kan||ikki)&&!state.kakuhen[i]){state.kakuhen[i]=true; addLog(`⚡ ${state.players[i]}が確変突入（${kan?'カン':'一気通貫'}）`)} if(penaltyHappened[i] && state.kakuhen[i]){state.kakuhen[i]=false; addLog(`🧯 ${state.players[i]}はペナルティ行為で確変終了`)} }
- return points;}
-function saveHole(){let points=calcHole(); points.forEach((p,i)=>state.scores[i]+=p); state.hist.push({hole:state.hole,par:Number(parNo.value),points:[...points],scores:[...state.scores]}); addLog(`✅ ${state.hole}H 登録：${points.map((p,i)=>state.players[i]+(p>=0?'+':'')+p).join(' / ')}`); current={}; if(state.hole<18)state.hole++; holeNo.value=state.hole; persist(); renderAll();}
-function moveCard(card,to){let from=state.cards[card]; state.cards[card]=to; addLog(`🎴 ${card}カード：${from===undefined?'配布':state.players[from]} → ${state.players[to]}`); checkAllCards(to);}
-function checkAllCards(i){if(cardsOf(i).length===8){state.scores[i]-=16; addLog(`💥 ${state.players[i]}に8枚集結！ -16点。カードを再配布します。`); dealPenaltyCards(false);}}
-function cardsOf(i){return Object.entries(state.cards).filter(([c,o])=>o===i).map(([c])=>c)}
-function dealPenaltyCards(show=true){let arr=[...PENALTY_CARDS].sort(()=>Math.random()-.5); state.cards={}; arr.forEach((c,idx)=>state.cards[c]=idx%4); if(show)addLog('🎴 ペナルティカードをランダムに2枚ずつ再配布しました'); persist(); renderAll();}
-function manualMoveCard(){moveCard(manualCard.value,Number(manualPlayer.value)); persist(); renderAll();}
-function renderCards(){cardOwners.innerHTML=state.players.map((p,i)=>`<div class="player-card"><div class="name">${p}</div><div class="small">${cardsOf(i).length}枚</div><div class="cards">${cardsOf(i).map(c=>`<span class="pcard ${cardsOf(i).length===8?'all':''}">${c}</span>`).join('')}</div></div>`).join('')}
-function renderHistory(){if(!state.hist.length){historyTable.innerHTML='<p class="small">まだ登録がありません。</p>'}else{historyTable.innerHTML=`<table><tr><th>H</th>${state.players.map(p=>`<th>${p}</th>`).join('')}</tr>${state.hist.map(h=>`<tr><td>${h.hole}H</td>${h.points.map(p=>`<td>${p>=0?'+':''}${p}</td>`).join('')}</tr>`).join('')}</table>`} log.innerHTML=state.logs.slice().reverse().map(l=>`<p>${l}</p>`).join('')}
-function renderAll(){fillStatic(); renderScoreboard(); renderInputs(); renderCards(); renderHistory();}
-function addLog(t){state.logs.push(new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})+' '+t); if(state.logs.length>200)state.logs.shift();}
-function clearCurrentInputs(){current={};renderInputs();}
-function prevHole(){state.hole=Math.max(1,state.hole-1);holeNo.value=state.hole;persist();renderAll();}
-function nextHole(){state.hole=Math.min(18,state.hole+1);holeNo.value=state.hole;persist();renderAll();}
-function applyNames(){state.players=state.players.map((_,i)=>document.getElementById('name'+i).value||`P${i+1}`);persist();renderAll();}
-function resetGame(){if(confirm('全データをリセットしますか？')){localStorage.removeItem('golfOlympicV2');location.reload();}}
-function exportText(){let text='ゴルフオリンピック結果\n'+rankPlayers().map((r,idx)=>`${idx+1}位 ${r.p}: ${r.s}点`).join('\n'); navigator.clipboard?.writeText(text); alert(text+'\n\n結果をコピーしました');}
-init();
+const penaltyNames=['OB','池ポチャ','3パット','バンカー','チョロ','1ペナ','木に当たる','カラー'];
+let state={players:[],course:'',date:'',startHole:1,holeOrder:[],scores:[0,0,0,0],olympicCounts:null,kakuhen:[false,false,false,false],penaltyOwner:{},nearCarry:0,nearHolder:null,history:[]};
+const $=id=>document.getElementById(id);
+function today(){return new Date().toISOString().slice(0,10)} $('date').value=today();
+function initHoles(){const s=Number($('startHole').value||1);const arr=s===10?[10,11,12,13,14,15,16,17,18,1,2,3,4,5,6,7,8,9]:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18];$('hole').innerHTML=arr.map(h=>`<option value="${h}">${h}番</option>`).join('');state.holeOrder=arr}
+initHoles();$('startHole').addEventListener('change',initHoles);$('par').addEventListener('change',renderNearNotice);$('hole').addEventListener('change',renderNearNotice);
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>showScreen(b.dataset.screen)));
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.screen===id));renderAll();}
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2600)}
+function startGame(fresh=false){state.players=[0,1,2,3].map(i=>($('p'+i).value||`プレイヤー${i+1}`).trim());state.course=$('course').value;state.date=$('date').value;state.startHole=Number($('startHole').value);initHoles();state.scores=[0,0,0,0];state.olympicCounts=[{gold:0,silver:0,bronze:0,iron:0},{gold:0,silver:0,bronze:0,iron:0},{gold:0,silver:0,bronze:0,iron:0},{gold:0,silver:0,bronze:0,iron:0}];state.kakuhen=[false,false,false,false];state.nearCarry=0;state.nearHolder=null;state.history=[];dealPenaltyCards(false);renderPlayers();renderAll();saveGame();showScreen('play');toast('ゲーム開始。カードを配布しました')}
+function renderPlayers(){if(!state.players.length) startGame(false);$('players').innerHTML=state.players.map((name,i)=>`<div class="playerBox" data-p="${i}"><div class="playerHead"><strong>${name}</strong><span class="pill gray" id="kaku${i}">通常</span></div><label>スコア</label><select id="score${i}"><option value="">選択</option><option value="-2">イーグル</option><option value="-1">バーディ</option><option value="0">パー</option><option value="1">ボギー</option><option value="2">ダボ以上</option></select><label>パット数</label><select id="putt${i}"><option>0</option><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select><label>オリンピック</label><div class="olympicBtns" id="oly${i}">${olyBtn(i,'none','なし','')} ${olyBtn(i,'gold','金','gold')} ${olyBtn(i,'silver','銀','silver')} ${olyBtn(i,'bronze','銅','bronze')} ${olyBtn(i,'iron','鉄','iron')}</div><div class="checks"><label class="checkBtn"><input type="checkbox" id="birdie${i}">バーディ+2</label><label class="checkBtn"><input type="checkbox" id="sand${i}">砂1+1</label><label class="checkBtn"><input type="checkbox" id="dia${i}">ダイヤ+5</label><label class="checkBtn"><input type="checkbox" id="saoOk${i}">竿成功+3</label><label class="checkBtn"><input type="checkbox" id="saoNg${i}">竿失敗-3</label><label class="checkBtn"><input type="checkbox" id="near${i}">ニアピン</label><label class="checkBtn"><input type="checkbox" id="rescue${i}">レスキュー</label></div><h3>ペナルティ行為</h3><div class="checks">${penaltyNames.map((p,idx)=>`<label class="checkBtn"><input type="checkbox" id="pen${i}_${idx}">${p}</label>`).join('')}</div></div>`).join('');document.querySelectorAll('.miniBtn[data-oly]').forEach(btn=>btn.onclick=()=>{const p=btn.dataset.p;document.querySelectorAll(`.miniBtn[data-p="${p}"]`).forEach(x=>x.classList.remove('active'));btn.classList.add('active')});document.querySelectorAll('.miniBtn[data-oly="none"]').forEach(b=>b.classList.add('active'));renderNearNotice();renderAll();}
+function olyBtn(p,val,label,cls){return `<button class="miniBtn ${cls}" type="button" data-p="${p}" data-oly="${val}">${label}</button>`}
+function renderNearNotice(){if(!$('nearNotice'))return;const par=Number($('par').value);$('nearNotice').textContent=par===3?`Par3です。ニアピンは ${3+state.nearCarry} 点（持ち越し ${state.nearCarry} 点）です。`:'Par3ではないため、ニアピンは通常使いません。'}
+function submitHole(){if(!state.players.length) startGame(false);const hole=Number($('hole').value), par=Number($('par').value), adult=hole>=16&&hole<=18;let details=[], anyNear=false, nearWinner=null, penaltyHappened=[false,false,false,false];let putts=[0,0,0,0].map((_,i)=>Number($('putt'+i).value||0));for(let i=0;i<4;i++){let pts=0, ds=[];const oly=document.querySelector(`.miniBtn.active[data-p="${i}"]`)?.dataset.oly||'none';if(oly!=='none'){let base={gold:4,silver:3,bronze:2,iron:1}[oly];if(adult)base*=2;pts+=base;ds.push(`${{gold:'金',silver:'銀',bronze:'銅',iron:'鉄'}[oly]}${adult?'×2':''}+${base}`);state.olympicCounts[i][oly]++;if(!state.kakuhen[i] && (state.olympicCounts[i][oly]>=4 || ['gold','silver','bronze','iron'].every(k=>state.olympicCounts[i][k]>0))){state.kakuhen[i]=true;ds.push('確変突入');}}
+if($('birdie'+i).checked){pts+=2;ds.push('バーディ+2')}if($('sand'+i).checked){pts+=1;ds.push('砂1+1')}if($('dia'+i).checked){pts+=5;ds.push('ダイヤ+5')}if($('saoOk'+i).checked){pts+=3;ds.push('竿成功+3')}if($('saoNg'+i).checked){pts-=3;ds.push('竿失敗-3')}if(par===3 && $('near'+i).checked){const np=3+state.nearCarry;pts+=np;ds.push(`ニアピン+${np}`);anyNear=true;nearWinner=i;}if(par===3 && $('rescue'+i).checked){pts+=0;ds.push('レスキュー成立')}
+for(let j=0;j<penaltyNames.length;j++){if($(`pen${i}_${j}`).checked){movePenalty(j,i);penaltyHappened[i]=true;ds.push(`${penaltyNames[j]}カード移動`);}}
+if(state.kakuhen[i]){const minOther=Math.min(...putts.filter((_,idx)=>idx!==i));const bonus=Math.max(0,minOther-putts[i]);if(bonus>0){pts+=bonus;ds.push(`確変パット差+${bonus}`)}}if(penaltyHappened[i]&&state.kakuhen[i]){state.kakuhen[i]=false;ds.push('確変終了')}
+state.scores[i]+=pts;details.push({name:state.players[i],pts,ds});}
+if(par===3){if(anyNear){state.nearHolder=nearWinner;state.nearCarry=0}else{state.nearCarry+=3;}const rescuePlayers=[0,1,2,3].filter(i=>$('rescue'+i).checked);if(rescuePlayers.length && state.nearHolder!==null && !$('birdie'+state.nearHolder).checked){details[state.nearHolder].ds.push('火消しによりニアピン権消滅');state.nearHolder=null;}}
+state.history.unshift({hole,par,details,at:new Date().toLocaleString('ja-JP')});checkPenaltyComplete();saveGame();renderAll();clearCurrentInputs(false);toast(`${hole}番を登録しました`)}
+function clearCurrentInputs(show=true){for(let i=0;i<4;i++){['birdie','sand','dia','saoOk','saoNg','near','rescue'].forEach(k=>$(k+i).checked=false);for(let j=0;j<penaltyNames.length;j++)$(`pen${i}_${j}`).checked=false;$('score'+i).value='';$('putt'+i).value='2';document.querySelectorAll(`.miniBtn[data-p="${i}"]`).forEach(x=>x.classList.remove('active'));document.querySelector(`.miniBtn[data-p="${i}"][data-oly="none"]`).classList.add('active')}if(show)toast('入力をリセットしました')}
+function dealPenaltyCards(show=true){let deck=[...Array(8).keys()].sort(()=>Math.random()-.5);state.penaltyOwner={};deck.forEach((card,idx)=>state.penaltyOwner[card]=idx%4);if(show){toast('カードを再配布しました');saveGame();renderAll();}}
+function movePenalty(cardIdx,playerIdx){state.penaltyOwner[cardIdx]=playerIdx;}
+function checkPenaltyComplete(){for(let i=0;i<4;i++){const count=Object.values(state.penaltyOwner).filter(v=>v===i).length;if(count===8){state.scores[i]-=16;state.history.unshift({hole:'CARD',par:'-',details:[{name:state.players[i],pts:-16,ds:['ペナルティカード8枚達成 -16点','カード再配布']}],at:new Date().toLocaleString('ja-JP')});dealPenaltyCards(false);toast(`${state.players[i]}さんが8枚達成。-16点、カード再配布`);break;}}}
+function renderAll(){if(!state.players.length)return;renderScoreboard();renderPenaltyCards();renderHistory();for(let i=0;i<4;i++){const el=$('kaku'+i);if(el){el.textContent=state.kakuhen[i]?'確変中':'通常';el.className='pill '+(state.kakuhen[i]?'hot':'gray')}}renderNearNotice();}
+function renderScoreboard(){const rows=state.players.map((name,i)=>({name,score:state.scores[i],idx:i,cards:Object.values(state.penaltyOwner).filter(v=>v===i).length,k:state.kakuhen[i]})).sort((a,b)=>b.score-a.score);$('scoreboard').innerHTML=rows.map((r,n)=>`<div class="rankrow"><div class="rankno">${['🥇','🥈','🥉','④'][n]}</div><div><div class="pname">${r.name}</div><span class="pill ${r.k?'hot':'gray'}">${r.k?'確変中':'通常'}</span><span class="pill green">カード${r.cards}枚</span></div><div class="pts">${r.score}点</div></div>`).join('')}
+function renderPenaltyCards(){if(!$('penaltyCards')||!state.players.length)return;$('penaltyCards').innerHTML=penaltyNames.map((name,idx)=>{const owner=state.penaltyOwner[idx]??0;return `<div class="penCard"><div class="penTitle">🎴 ${name}</div><div class="owner">現在：${state.players[owner]}</div><div class="grid2">${state.players.map((p,i)=>`<button class="miniBtn" onclick="movePenalty(${idx},${i});checkPenaltyComplete();saveGame();renderAll();toast('${name} → ${p}')">${p}</button>`).join('')}</div></div>`}).join('')}
+function renderHistory(){if(!state.history.length){$('history').innerHTML='まだ登録がありません。';return;}$('history').innerHTML=state.history.map(h=>`<div class="histItem"><strong>${h.hole==='CARD'?'カード清算':h.hole+'番 Par'+h.par}</strong> <span class="small">${h.at}</span><br>${h.details.map(d=>`${d.name}: <b>${d.pts>0?'+':''}${d.pts}</b>点 ${d.ds.join(' / ')||'加点なし'}`).join('<br>')}</div>`).join('')}
+function saveGame(){localStorage.setItem('golfOlympicCompleteV1',JSON.stringify(state))}
+function loadGame(){const raw=localStorage.getItem('golfOlympicCompleteV1');if(!raw){toast('保存データがありません');return}state=JSON.parse(raw);$('course').value=state.course||'';$('date').value=state.date||today();$('startHole').value=state.startHole||1;state.players.forEach((p,i)=>$('p'+i).value=p);initHoles();renderPlayers();renderAll();showScreen('score');toast('読み込みました')}
+function resetAll(){if(confirm('全データを削除して最初から始めますか？')){localStorage.removeItem('golfOlympicCompleteV1');location.reload();}}
+renderPlayers();
 </script>
 </body>
 </html>
