@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ゴルフオリンピック得点アプリ</title>
+  <style>
+    :root{--bg:#f6f7fb;--card:#fff;--text:#1f2937;--muted:#6b7280;--line:#e5e7eb;--accent:#2563eb;--danger:#dc2626;--ok:#16a34a;--warn:#d97706;}
+    *{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);}
+    header{position:sticky;top:0;z-index:5;background:#111827;color:#fff;padding:14px 16px;box-shadow:0 2px 8px #0002} h1{font-size:18px;margin:0} main{max-width:1100px;margin:auto;padding:14px}
+    section{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0;box-shadow:0 1px 4px #00000008} h2{font-size:17px;margin:0 0 10px} h3{font-size:15px;margin:12px 0 8px;color:#374151}
+    .grid{display:grid;gap:10px}.cols4{grid-template-columns:repeat(4,1fr)}.cols3{grid-template-columns:repeat(3,1fr)}.cols2{grid-template-columns:repeat(2,1fr)}
+    label{font-size:12px;color:var(--muted);display:block;margin-bottom:4px} input,select,button{font-size:16px;border-radius:10px;border:1px solid var(--line);padding:10px;background:#fff;color:var(--text);width:100%}
+    button{background:var(--accent);color:#fff;border:none;font-weight:700;cursor:pointer} button.secondary{background:#374151} button.light{background:#f3f4f6;color:#111827;border:1px solid var(--line)} button.danger{background:var(--danger)} button.ok{background:var(--ok)} button.warn{background:var(--warn)} button:active{transform:translateY(1px)}
+    table{width:100%;border-collapse:collapse;font-size:14px} th,td{border-bottom:1px solid var(--line);padding:8px;text-align:center} th{background:#f9fafb;color:#374151;position:sticky;top:48px} .left{text-align:left}.muted{color:var(--muted);font-size:13px}.pill{display:inline-block;padding:4px 8px;border-radius:999px;background:#eef2ff;color:#3730a3;font-size:12px;font-weight:700}.bad{background:#fee2e2;color:#991b1b}.good{background:#dcfce7;color:#166534}.gold{background:#fef3c7;color:#92400e}.silver{background:#e5e7eb;color:#374151}.bronze{background:#ffedd5;color:#9a3412}.iron{background:#f3f4f6;color:#111827}.score{font-size:22px;font-weight:800}.cards{font-size:22px;letter-spacing:2px}.small{font-size:12px}.nowrap{white-space:nowrap}.history{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:10px}.rulebox{background:#f9fafb;border:1px solid var(--line);border-radius:10px;padding:10px;line-height:1.7}.flex{display:flex;gap:8px;align-items:center}.flex>*{flex:1}
+    @media(max-width:760px){.cols4,.cols3,.cols2{grid-template-columns:1fr} th,td{font-size:12px;padding:6px} input,select,button{font-size:15px;padding:9px} main{padding:10px} .wide{overflow-x:auto} }
+  </style>
+</head>
+<body>
+<header><h1>⛳ ゴルフオリンピック得点アプリ</h1></header>
+<main>
+  <section>
+    <h2>ルール確認</h2>
+    <div class="rulebox small">
+      <b>オリンピック：</b>金4点・銀3点・銅2点・鉄1点／<b>バーディ：</b>+2点／<b>砂1：</b>+1点／<b>ダイヤモンド：</b>+5点／<b>竿：</b>成功+3点、3パット失敗-3点<br>
+      <b>大人の時間：</b>16〜18番のオリンピック点を2倍／<b>ニアピン：</b>PAR3で+3点、該当なしなら次のPAR3へ持ち越し<br>
+      <b>レスキュー：</b>PAR3で1オンせずパーを取った場合。ニアピン保持者はバーディ以外ならニアピン権消滅<br>
+      <b>確変：</b>金銀銅鉄の一気通貫、または同一メダル4回で突入。ペナルティカード清算で終了<br>
+      <b>ペナルティカード：</b>移動可能。誰か1人にカードが集中したら「枚数 × -2点」で清算し、カードを再配布
+    </div>
+  </section>
+
+  <section>
+    <h2>プレイヤー設定</h2>
+    <div class="grid cols4" id="playerInputs"></div>
+    <div class="grid cols3" style="margin-top:10px">
+      <button onclick="applyPlayers()">プレイヤー名を反映</button>
+      <button class="secondary" onclick="resetAll()">全リセット</button>
+      <button class="light" onclick="saveNow()">保存</button>
+    </div>
+    <p class="muted">入力内容はこの端末のブラウザに自動保存されます。</p>
+  </section>
+
+  <section>
+    <h2>現在順位</h2>
+    <div class="wide"><table id="scoreTable"></table></div>
+  </section>
+
+  <section>
+    <h2>ペナルティカード</h2>
+    <div class="grid cols4" id="penaltyCards"></div>
+    <h3>カード移動</h3>
+    <div class="grid cols4">
+      <div><label>移動元</label><select id="cardFrom"></select></div>
+      <div><label>移動先</label><select id="cardTo"></select></div>
+      <div><label>枚数</label><input id="cardCount" type="number" min="1" value="1"></div>
+      <div><label>&nbsp;</label><button class="warn" onclick="moveCards()">カード移動</button></div>
+    </div>
+    <div class="grid cols3" style="margin-top:10px">
+      <button class="danger" onclick="settlePenalty()">集中した人を清算</button>
+      <button class="secondary" onclick="dealPenaltyCards()">再配布</button>
+      <button class="light" onclick="addPenaltyCard()">カードを1枚追加</button>
+    </div>
+    <p class="muted">初期設定はカード4枚です。全カードを1人が持った状態で清算すると、その人に -8点が入ります。</p>
+  </section>
+
+  <section>
+    <h2>ホール入力</h2>
+    <div class="grid cols3">
+      <div><label>ホール</label><input id="holeNo" type="number" min="1" max="18" value="1"></div>
+      <div><label>PAR</label><select id="par"><option>3</option><option selected>4</option><option>5</option></select></div>
+      <div><label>ニアピン持ち越し</label><input id="carryNearPin" type="number" min="0" value="0"></div>
+    </div>
+    <div class="wide" style="margin-top:10px"><table id="inputTable"></table></div>
+    <div class="grid cols3" style="margin-top:12px">
+      <button class="ok" onclick="addHole()">このホールを登録</button>
+      <button class="secondary" onclick="undoHole()">直前ホールを取消</button>
+      <button class="light" onclick="clearInputs()">入力欄クリア</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>ホール履歴</h2>
+    <div class="history"><table id="historyTable"></table></div>
+  </section>
+</main>
+<script>
+const medalPoint={none:0,gold:4,silver:3,bronze:2,iron:1};
+const medalLabel={none:'-',gold:'金',silver:'銀',bronze:'銅',iron:'鉄'};
+let state={players:['Aさん','Bさん','Cさん','Dさん'], scores:[0,0,0,0], medals:[{gold:0,silver:0,bronze:0,iron:0},{gold:0,silver:0,bronze:0,iron:0},{gold:0,silver:0,bronze:0,iron:0},{gold:0,silver:0,bronze:0,iron:0}], kakuhen:[false,false,false,false], penaltyCards:[1,1,1,1], totalPenaltyCards:4, holes:[], carryNearPin:0};
+function save(){localStorage.setItem('golfOlympicPenaltyV2',JSON.stringify(state));}
+function load(){const s=localStorage.getItem('golfOlympicPenaltyV2'); if(s){try{state=JSON.parse(s)}catch(e){}}}
+function saveNow(){save(); alert('保存しました');}
+function render(){renderPlayers(); renderScore(); renderPenalty(); renderInputs(); renderHistory(); save();}
+function renderPlayers(){const box=document.getElementById('playerInputs'); box.innerHTML=''; state.players.forEach((p,i)=>{box.innerHTML+=`<div><label>プレイヤー${i+1}</label><input id="p${i}" value="${escapeHtml(p)}"></div>`}); fillPlayerSelects();}
+function applyPlayers(){state.players=state.players.map((_,i)=>document.getElementById('p'+i).value||`P${i+1}`); render();}
+function renderScore(){let rows=state.players.map((p,i)=>({p,i,score:state.scores[i]})).sort((a,b)=>b.score-a.score); let html='<tr><th>順位</th><th class="left">名前</th><th>得点</th><th>確変</th><th>金銀銅鉄</th><th>カード</th></tr>'; rows.forEach((r,idx)=>{const m=state.medals[r.i]; html+=`<tr><td>${idx+1}</td><td class="left">${escapeHtml(r.p)}</td><td class="score">${r.score}</td><td>${state.kakuhen[r.i]?'<span class="pill good">確変中</span>':'-'}</td><td><span class="pill gold">金${m.gold}</span> <span class="pill silver">銀${m.silver}</span> <span class="pill bronze">銅${m.bronze}</span> <span class="pill iron">鉄${m.iron}</span></td><td class="cards">${'🎴'.repeat(state.penaltyCards[r.i])||'-'}</td></tr>`}); document.getElementById('scoreTable').innerHTML=html;}
+function renderPenalty(){const box=document.getElementById('penaltyCards'); box.innerHTML=''; state.players.forEach((p,i)=>{box.innerHTML+=`<div class="rulebox"><b>${escapeHtml(p)}</b><div class="cards">${'🎴'.repeat(state.penaltyCards[i])||'なし'}</div><div class="muted">${state.penaltyCards[i]}枚</div></div>`}); fillPlayerSelects();}
+function fillPlayerSelects(){['cardFrom','cardTo'].forEach(id=>{const el=document.getElementById(id); if(!el)return; const cur=el.value; el.innerHTML=state.players.map((p,i)=>`<option value="${i}">${escapeHtml(p)}</option>`).join(''); if(cur) el.value=cur;});}
+function moveCards(){const from=+document.getElementById('cardFrom').value,to=+document.getElementById('cardTo').value,c=Math.max(1,+document.getElementById('cardCount').value||1); if(from===to){alert('移動元と移動先が同じです');return;} if(state.penaltyCards[from]<c){alert('移動元のカードが足りません');return;} state.penaltyCards[from]-=c; state.penaltyCards[to]+=c; state.holes.push({hole:'カード移動', summary:`${state.players[from]} → ${state.players[to]}：${c}枚`, points:[0,0,0,0]}); render();}
+function settlePenalty(){const max=Math.max(...state.penaltyCards); const holder=state.penaltyCards.findIndex(x=>x===state.totalPenaltyCards); if(holder<0){alert('まだ1人にカードが集中していません。全カードを1人が持った時に清算します。');return;} const minus=state.totalPenaltyCards*-2; state.scores[holder]+=minus; state.kakuhen=state.kakuhen.map(()=>false); state.holes.push({hole:'ペナルティ清算', summary:`${state.players[holder]}：${state.totalPenaltyCards}枚 × -2点 = ${minus}点。確変終了。`, points:state.players.map((_,i)=>i===holder?minus:0)}); dealPenaltyCards(false); render();}
+function dealPenaltyCards(doRender=true){state.penaltyCards=[0,0,0,0]; for(let i=0;i<state.totalPenaltyCards;i++) state.penaltyCards[i%4]++; if(doRender){state.holes.push({hole:'カード再配布', summary:'ペナルティカードを再配布', points:[0,0,0,0]}); render();}}
+function addPenaltyCard(){state.totalPenaltyCards++; state.penaltyCards[state.totalPenaltyCards%4]++; state.holes.push({hole:'カード追加', summary:'ペナルティカードを1枚追加', points:[0,0,0,0]}); render();}
+function renderInputs(){const medals='<option value="none">なし</option><option value="gold">金 4点</option><option value="silver">銀 3点</option><option value="bronze">銅 2点</option><option value="iron">鉄 1点</option>'; let html='<tr><th>名前</th><th>打数</th><th>パット</th><th>五輪</th><th>バーディ</th><th>砂1</th><th>ダイヤ</th><th>竿</th><th>竿3P</th><th>ニアピン</th><th>レスキュー</th></tr>'; state.players.forEach((p,i)=>{html+=`<tr><td class="left nowrap">${escapeHtml(p)}</td><td><input id="score_${i}" type="number" min="1"></td><td><input id="putt_${i}" type="number" min="0"></td><td><select id="medal_${i}">${medals}</select></td><td><input id="birdie_${i}" type="checkbox"></td><td><input id="sand_${i}" type="checkbox"></td><td><input id="dia_${i}" type="checkbox"></td><td><input id="sao_${i}" type="checkbox"></td><td><input id="sao3_${i}" type="checkbox"></td><td><input id="near_${i}" type="checkbox"></td><td><input id="rescue_${i}" type="checkbox"></td></tr>`}); document.getElementById('inputTable').innerHTML=html; document.getElementById('carryNearPin').value=state.carryNearPin||0;}
+function addHole(){const hole=+document.getElementById('holeNo').value, par=+document.getElementById('par').value; state.carryNearPin=+document.getElementById('carryNearPin').value||0; let points=[0,0,0,0], summary=[]; let nearPinWinner=-1, rescuePlayers=[]; for(let i=0;i<4;i++){const med=document.getElementById('medal_'+i).value; let olympic=medalPoint[med]||0; if(hole>=16 && hole<=18) olympic*=2; points[i]+=olympic; if(med!=='none'){state.medals[i][med]++; summary.push(`${state.players[i]}:${medalLabel[med]}${olympic}点`);} if(document.getElementById('birdie_'+i).checked){points[i]+=2; summary.push(`${state.players[i]}:バーディ+2`);} if(document.getElementById('sand_'+i).checked){points[i]+=1; summary.push(`${state.players[i]}:砂1+1`);} if(document.getElementById('dia_'+i).checked){points[i]+=5; summary.push(`${state.players[i]}:ダイヤ+5`);} if(document.getElementById('sao_'+i).checked){points[i]+=3; summary.push(`${state.players[i]}:竿+3`);} if(document.getElementById('sao3_'+i).checked){points[i]-=3; summary.push(`${state.players[i]}:竿3P-3`);} if(document.getElementById('near_'+i).checked){nearPinWinner=i;} if(document.getElementById('rescue_'+i).checked){rescuePlayers.push(i); points[i]+=1; summary.push(`${state.players[i]}:レスキュー+1`);} }
+  if(par===3){ if(nearPinWinner>=0){const np=3+state.carryNearPin; points[nearPinWinner]+=np; summary.push(`${state.players[nearPinWinner]}:ニアピン+${np}`); state.carryNearPin=0;} else {state.carryNearPin+=3; summary.push(`ニアピン該当なし：次回へ${state.carryNearPin}点持ち越し`);} if(rescuePlayers.length && nearPinWinner>=0){const birdie=document.getElementById('birdie_'+nearPinWinner).checked; if(!birdie) summary.push(`火消し成立：${state.players[nearPinWinner]}のニアピン権は消滅扱い`);} }
+  for(let i=0;i<4;i++){const m=state.medals[i]; if(!state.kakuhen[i] && (m.gold>=4||m.silver>=4||m.bronze>=4||m.iron>=4||(m.gold&&m.silver&&m.bronze&&m.iron))){state.kakuhen[i]=true; summary.push(`${state.players[i]}:確変突入`);} }
+  // 確変ボーナス：入力されたパット差で、他者より少ない分を加点
+  for(let i=0;i<4;i++){ if(state.kakuhen[i]){const pi=+document.getElementById('putt_'+i).value; if(!isNaN(pi)){let bonus=0; for(let j=0;j<4;j++){const pj=+document.getElementById('putt_'+j).value; if(i!==j && !isNaN(pj) && pi<pj) bonus += (pj-pi);} if(bonus){points[i]+=bonus; summary.push(`${state.players[i]}:確変パット差+${bonus}`);} } } }
+  points.forEach((pt,i)=>state.scores[i]+=pt); state.holes.push({hole:`${hole}H`, summary:summary.join(' / ')||'得点なし', points}); document.getElementById('holeNo').value=Math.min(18,hole+1); render();}
+function undoHole(){const h=state.holes.pop(); if(!h){alert('取り消す履歴がありません');return;} if(h.points){h.points.forEach((pt,i)=>state.scores[i]-=pt);} alert('直前の履歴を取り消しました。※メダル回数・確変状態・カード状態は完全復元ではありません。必要なら全リセットしてください。'); render();}
+function clearInputs(){renderInputs();}
+function renderHistory(){let html='<tr><th>項目</th><th class="left">内容</th><th>A</th><th>B</th><th>C</th><th>D</th></tr>'; [...state.holes].reverse().forEach(h=>{html+=`<tr><td>${h.hole}</td><td class="left">${escapeHtml(h.summary)}</td>${(h.points||[0,0,0,0]).map(p=>`<td>${p}</td>`).join('')}</tr>`}); document.getElementById('historyTable').innerHTML=html;}
+function resetAll(){if(!confirm('全データをリセットしますか？'))return; localStorage.removeItem('golfOlympicPenaltyV2'); state={players:['Aさん','Bさん','Cさん','Dさん'], scores:[0,0,0,0], medals:[{gold:0,silver:0,bronze:0,iron:0},{gold:0,silver:0,bronze:0,iron:0},{gold:0,silver:0,bronze:0,iron:0},{gold:0,silver:0,bronze:0,iron:0}], kakuhen:[false,false,false,false], penaltyCards:[1,1,1,1], totalPenaltyCards:4, holes:[], carryNearPin:0}; render();}
+function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));}
+load(); render();
+</script>
+</body>
+</html>
